@@ -14,14 +14,14 @@ namespace CmsShop.Areas.Admin.Controllers
             // deklaracja listy PageVM
             List<PageVM> pagesList;
 
-            
+
             using (Db db = new Db())
             {
                 // inicjalizaja listy
-                pagesList = db.Pages.ToArray().OrderBy(x => x.Sorting).Select(x => new PageVM(x)).ToList(); 
+                pagesList = db.Pages.ToArray().OrderBy(x => x.Sorting).Select(x => new PageVM(x)).ToList();
             }
 
-            
+
             // zwracanie stron do widoku
             return View(pagesList);
         }
@@ -53,7 +53,7 @@ namespace CmsShop.Areas.Admin.Controllers
                 if (string.IsNullOrWhiteSpace(model.Slug))
                 {
                     slug = model.Title.Replace(" ", "-").ToLower();
-                }else
+                } else
                 {
                     slug = model.Slug.Replace(" ", "-").ToLower();
                 }
@@ -76,7 +76,7 @@ namespace CmsShop.Areas.Admin.Controllers
             }
             TempData["SM"] = "Dodałeś nową stronę";
 
-                return RedirectToAction("AddPage");
+            return RedirectToAction("AddPage");
         }
 
         //GET: Admin/Pages/EditPage
@@ -100,14 +100,14 @@ namespace CmsShop.Areas.Admin.Controllers
                 model = new PageVM(dto);
             }
 
-                return View(model);
+            return View(model);
         }
 
         //POST: Admin/Pages/EditPage
         [HttpPost]
         public ActionResult EditPage(PageVM model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -135,7 +135,7 @@ namespace CmsShop.Areas.Admin.Controllers
                 }
 
                 // sprawdzenie unikalnosc strony, adresu 
-                if (db.Pages.Where(x => x.Id != id).Any(x => x.Title == model.Title) || 
+                if (db.Pages.Where(x => x.Id != id).Any(x => x.Title == model.Title) ||
                     db.Pages.Where(x => x.Id != id).Any(x => x.Slug == slug))
                 {
                     ModelState.AddModelError("", "Strona lub tytuł już istnije");
@@ -180,7 +180,7 @@ namespace CmsShop.Areas.Admin.Controllers
                 // inicjalizacja PageVM
                 model = new PageVM(dto);
             }
-                return View(model); 
+            return View(model);
         }
 
         // GET: Admin/Pages/Delete/id
@@ -222,6 +222,46 @@ namespace CmsShop.Areas.Admin.Controllers
             }
 
             return View();
+        }
+        // GET: Admin/Pages/EditSidebar
+        public ActionResult EditSidebar()
+        {
+            // deklaracja SidebarVM
+            SidebarVM model;
+
+            using (Db db = new Db())
+            {
+                // pobranie SidebarDTO
+                SidebarDTO dto = db.Sidebar.Find(1);
+
+                // inicjalizacja modelu 
+                model = new SidebarVM(dto);
+            }
+
+            return View(model);
+        }
+
+        // POST: Admin/Pages/EditSidebar
+        [HttpPost]
+        public ActionResult EditSidebar(SidebarVM model)
+        {
+            using (Db db = new Db())
+            {
+                // pobranie sidebar z bazy
+                SidebarDTO dto = db.Sidebar.Find(1);
+
+                //modyfikowanie sidebar
+                dto.Body = model.Body;
+
+                //zapis bazy
+                db.SaveChanges();
+            }
+
+            // ustawienie komunikatu o modyfikacji
+            TempData["SM"] = "Zmodyfikowałeś panel boczny";
+
+            //przekierowanie
+                return RedirectToAction("EditSidebar");
         }
     }
 }
