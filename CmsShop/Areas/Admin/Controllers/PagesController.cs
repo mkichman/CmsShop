@@ -79,5 +79,85 @@ namespace CmsShop.Areas.Admin.Controllers
                 return RedirectToAction("AddPage");
         }
 
+        //GET: Admin/Pages/EditPage
+        [HttpGet]
+        public ActionResult EditPage(int id)
+        {
+            // deklaracja Page View Model
+            PageVM model;
+
+            using (Db db = new Db())
+            {
+                //pobranie strony o przekazanym id 
+                PageDTO dto = db.Pages.Find(id);
+
+                //sprawdzenie czy strona istnieje 
+                if (dto == null)
+                {
+                    return Content("Strona nie istnieje");
+                }
+
+                model = new PageVM(dto);
+            }
+
+                return View(model);
+        }
+
+        //POST: Admin/Pages/EditPage
+        [HttpPost]
+        public ActionResult EditPage(PageVM model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            using (Db db = new Db())
+            {
+                // pobranie id strony doo edycji
+                int id = model.Id;
+
+                // inicjalizacja slug
+                string slug = "home";
+
+                // pobranie strony do edycji 
+                PageDTO dto = db.Pages.Find(id);
+
+
+                if (model.Slug != "home")
+                {
+                    if (string.IsNullOrWhiteSpace(model.Slug))
+                    {
+                        slug = model.Title.Replace(" ", "-").ToLower();
+                    } else
+                    {
+                        slug = model.Slug.Replace(" ", "-").ToLower();
+                    }
+                }
+
+                // sprawdzenie unikalnosc strony, adresu 
+                if (db.Pages.Where(x => x.Id != id).Any(x => x.Title == model.Title) || 
+                    db.Pages.Where(x => x.Id != id).Any(x => x.Slug == slug))
+                {
+                    ModelState.AddModelError("", "Strona lub tytuł już istnije");
+                }
+
+                // modyfikacja DTO 
+
+                dto.Title = model.Title;
+                dto.Slug = slug;
+                dto.HasSidebar = model.HasSidebar;
+                dto.Body = model.Body;
+
+                // zapisanie do bazy
+
+                db.SaveChanges();
+            }
+
+            // ustawienie komunikatu
+            TempData["SM"] = "Wyedytowałeś stronę";
+
+            //przekierowanie do strony editpage 
+            return RedirectToAction("EditPage");
+        }
     }
 }
