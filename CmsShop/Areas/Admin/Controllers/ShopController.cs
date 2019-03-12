@@ -93,5 +93,28 @@ namespace CmsShop.Areas.Admin.Controllers
 
                 return RedirectToAction("Categories");
         }
+
+        // POST: Admin/Shop/RenameCategory
+        [HttpPost]
+        public string RenameCategory(string newCatName, int id)
+        {
+            using (Db db = new Db())
+            {
+                // sprawdzenie unikalnosci kategorii
+                if (db.Categories.Any(x => x.Name == newCatName))
+                    return "tytulzajety";
+
+                // edycja kategorii
+                CategoryDTO dto = db.Categories.Find(id);
+
+                dto.Name = newCatName;
+                dto.Slug = newCatName.Replace(" ", "-").ToLower();
+
+                db.SaveChanges();
+
+            }
+
+                return "ok";
+        }
     }
 }

@@ -156,16 +156,17 @@ else
 
             $("table#pages input.text-box").keyup(function (e) {
                 if (e.keyCode == 13) {
-                    @(this).blur();
+                    $(this).blur();
                 }
             });
+
             $("table#pages input.text-box").blur(function () {
 
                 var $this = $(this);
                 var ajaxdiv = $this.parent().find(".ajaxdivtd");
                 var newCatName = $this.val();
                 var id = $this.parent().parent().attr("id").substring(3);
-                var url = "admin/shop/RenameCategory";
+                var url = "/admin/shop/RenameCategory";
 
                 if (newCatName.length < 2) {
                     alert("Nazwa kategorii musi mieć conajmniej 2 znaki");
