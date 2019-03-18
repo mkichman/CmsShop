@@ -291,5 +291,160 @@ namespace CmsShop.Areas.Admin.Controllers
             // zwrócenie widoku z listą produktów
             return View(listOfProductVM);
         }
+
+        // GET: Admin/Shop/EditProduct
+        public ActionResult EditProduct(int id)
+        {
+            // deklaracja productVM
+            ProductVM model;
+
+            using (Db db = new Db())
+            {
+                // pobranie produktu do edycji
+               ProductDTO dto = db.Products.Find(id);
+
+                // sprawdzenie czy produkt istnieje
+                if ( dto == null)
+                {
+                    return Content("Ten produkt nie istnieje");
+                }
+
+                // inicjalizacja modelu
+                model = new ProductVM(dto);
+
+                // lista kategorii
+                model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+
+                // ustawienie zdjęć
+                model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs"))
+                    .Select(fn => Path.GetFileName(fn));
+
+            }
+                                 
+            return View(model);
+        }
+
+        // POST: Admin/Shop/EditProduct
+        [HttpPost]
+        public ActionResult EditProduct(ProductVM model, HttpPostedFileBase file)
+        {
+            // pobranie id produktu 
+            int id = model.Id;
+
+            // pobranie kategorii dla listy rozwijanej 
+
+            using (Db db = new Db())
+            {
+                model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+            }
+
+            // ustawienie zdjęć
+            model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs"))
+                    .Select(fn => Path.GetFileName(fn));
+
+            // sprawdzenie model state
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // sprawdzenie unikalności nazwy produktu
+            using (Db db = new Db())
+            {
+                if(db.Products.Where(x => x.Id != id).Any(x => x.Name == model.Name))
+                {
+                    ModelState.AddModelError("", "Ta nazwa produktu jest zajęta");
+                    return View(model);
+                }
+            }
+
+            // edycja produktu i zapis na bazie
+            using (Db db = new Db())
+            {
+                ProductDTO dto = db.Products.Find(id);
+                dto.Name = model.Name;
+                dto.Slug = model.Name.Replace(" ", "-").ToLower();
+                dto.Price = model.Price;
+                dto.Description = model.Description;
+                dto.CategoryId = model.CategoryId;
+                dto.ImageName = model.ImageName;
+
+                CategoryDTO catDto = db.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
+                dto.CategoryName = catDto.Name;
+
+                db.SaveChanges();
+            }
+
+            // ustawienie TempData
+            TempData["SM"] = "Edytowałeś produkt";
+
+            #region Image Upload
+
+            //  sprawdzenie czy jest plik 
+            if (file != null && file.ContentLength > 0)
+            {
+                // sprawdzenie rozszerzenia pliku
+                string ext = file.ContentType.ToLower();
+                if (ext != "image/jpg" &&
+                    ext != "image/jpeg" &&
+                    ext != "image/pjpeg" &&
+                    ext != "image/gif" &&
+                    ext != "image/x-png" &&
+                    ext != "image/png")
+                {
+                    using (Db db = new Db())
+                    {
+                        model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+                        ModelState.AddModelError("", "Nieprawidłowe rozszerzenie obrazu.");
+                        return View(model);
+                    }
+                }
+
+                // utworzenie potrzebnej struktury katalogów
+                var OriginalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+
+                var pathString1 = Path.Combine(OriginalDirectory.ToString(), "Products\\" + id.ToString());
+                var pathString2 = Path.Combine(OriginalDirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs");
+
+
+                // usuwanie plików z katalogów 
+                DirectoryInfo di1 = new DirectoryInfo(pathString1);
+                DirectoryInfo di2 = new DirectoryInfo(pathString2);
+
+                foreach (var file2 in di1.GetFiles())
+                    file2.Delete();
+
+                foreach (var file3 in di2.GetFiles())
+                    file3.Delete();
+
+                // zapis nazwy obrazka na bazie 
+                string imageName = file.FileName;
+
+                using (Db db = new Db())
+                {
+                    ProductDTO dto = db.Products.Find(id);
+                    dto.ImageName = imageName;
+                    db.SaveChanges();
+                }
+
+                // zapis nowych plików
+                var path = string.Format("{0}\\{1}", pathString1, imageName);
+                var path2 = string.Format("{0}\\{1}", pathString2, imageName);
+
+                file.SaveAs(path);
+
+                WebImage img = new WebImage(file.InputStream);
+                img.Resize(200, 200);
+                img.Save(path2);
+
+
+            }
+
+
+            #endregion
+
+            return RedirectToAction("EditProduct");
+        }
     }
 }
