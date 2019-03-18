@@ -1,5 +1,6 @@
 ﻿using CmsShop.Models.Data;
 using CmsShop.Models.ViewModels.Shop;
+using PagedList;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -256,6 +257,39 @@ namespace CmsShop.Areas.Admin.Controllers
             #endregion
 
             return RedirectToAction("AddProduct");
+        }
+
+        // GET: Admin/Shop/Products
+        public ActionResult Products(int? page, int? catId)
+        {
+            // deklaracja listy produktów 
+            List<ProductVM> listOfProductVM;
+
+            // ustawienie numeru strony do paginacji
+            var pageNumber = page ?? 1;
+            
+            using (Db db = new Db())
+            {
+                // inicjalizacja listy produktów 
+                listOfProductVM = db.Products.ToArray()
+                                    .Where(x => catId == null || catId == 0 || x.CategoryId == catId)
+                                    .Select(x => new ProductVM(x))
+                                    .ToList();
+
+                // lista kategorii do dropDownList
+                ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+
+                // ustawienie wybranej kategorii 
+                ViewBag.SelectedCat = catId.ToString();
+            }
+
+            // ustawienie paginacji
+            var onePageOfProducts = listOfProductVM.ToPagedList(pageNumber, 3);
+
+            ViewBag.OnePageOfProducts = onePageOfProducts;
+
+            // zwrócenie widoku z listą produktów
+            return View(listOfProductVM);
         }
     }
 }
