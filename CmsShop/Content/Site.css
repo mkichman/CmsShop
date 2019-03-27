@@ -33,3 +33,6 @@ span.ajaxmsg {
     bottom:0;
     position: absolute;
 }
+.ib {
+    display: inline-block !important;
+}

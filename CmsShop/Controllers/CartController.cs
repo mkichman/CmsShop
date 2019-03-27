@@ -1,5 +1,7 @@
-﻿using CmsShop.Models.ViewModels.Cart;
+﻿using CmsShop.Models.Data;
+using CmsShop.Models.ViewModels.Cart;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CmsShop.Controllers
@@ -9,7 +11,26 @@ namespace CmsShop.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            return View();
+            // inicjalizacja koszyka
+            var cart = Session["cart"] as List<CartVM> ?? new List<CartVM>();
+
+            // sprawdzenie czy koszyk jest pusty
+            if (cart.Count == 0 || Session["cart"] == null)
+            {
+                ViewBag.Message = "Twój koszyk jest pusty";
+                return View();
+            }
+
+            // obliczenie podsumowania koszyka i przekazanie do ViewBag
+            decimal total = 0m;
+            foreach (var item in cart)
+            {
+                total += item.Total;
+            }
+
+            ViewBag.GrandTotal = total;
+
+            return View(cart);
         }
 
         public ActionResult CartPartial()
@@ -39,6 +60,57 @@ namespace CmsShop.Controllers
                 qty = 0;
                 price = 0m;
             }
+
+            return PartialView(model);
+        }
+
+        public ActionResult AddToCartPartial(int id)
+        {
+            // inicjalizacja CartVM List
+            List<CartVM> cart = Session["cart"] as List<CartVM> ?? new List<CartVM>();
+
+            // inicjalizacja CartVM
+            CartVM model = new CartVM();
+
+            using (Db db = new Db())
+            {
+                // pobranie produktu
+                ProductDTO product = db.Products.Find(id);
+
+                // sprawdzenie czy produkt nie znajduje się w koszyku
+                var productInCart = cart.FirstOrDefault(x => x.ProductId == id);
+
+                // dodanie produktu do koszyka
+                if (productInCart == null)
+                {
+                    cart.Add(new CartVM()
+                    {
+                        ProductId = product.Id,
+                        ProductName = product.Name,
+                        Quantity = 1,
+                        Price = product.Price,
+                        Image = product.ImageName
+                    });
+                }
+                else
+                {
+                    productInCart.Quantity++;
+                }
+            }
+            // pobranie wartosci ilosci i ceny i dodanie do modelu
+            int qty = 0;
+            decimal price = 0;
+
+            foreach (var item in cart)
+            {
+                qty += item.Quantity;
+                price += item.Quantity * item.Price;
+            }
+            model.Quantity = qty;
+            model.Price = price;
+
+            // zapis w sesji
+            Session["cart"] = cart;
 
             return PartialView(model);
         }
