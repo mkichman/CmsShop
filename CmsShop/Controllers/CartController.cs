@@ -51,8 +51,10 @@ namespace CmsShop.Controllers
                 foreach (var item in list)
                 {
                     qty += item.Quantity;
-                    price += item.Quantity * item.ProductId;
+                    price += item.Quantity * item.Price;
                 }
+                model.Quantity = qty;
+                model.Price = price;
             }
             else
             {
@@ -114,6 +116,27 @@ namespace CmsShop.Controllers
 
             return PartialView(model);
         }
+
+        public JsonResult IncrementProduct(int productId)
+        {
+            // inicjalizacja listy CartVM
+            List<CartVM> cart = Session["cart"] as List<CartVM>;
+
+            // pobranie CartVM
+            CartVM model = cart.FirstOrDefault(x => x.ProductId == productId);
+
+            // zwiekszenie ilosci produktu
+            model.Quantity++;
+
+            // przygotowanie danych do jsona 
+            var result = new { qty = model.Quantity, price = model.Price };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
 
     }
 }
