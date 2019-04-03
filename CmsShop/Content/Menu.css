@@ -53,3 +53,11 @@
 .navbar_brand {
     padding: 0;
 }
+.pull-right {
+    margin-top: 25px;
+    margin-right: 70px;
+}
+.ajaxcart {
+    display: inline-block;
+    margin-right: 40px;
+}
