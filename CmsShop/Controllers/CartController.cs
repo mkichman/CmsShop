@@ -159,6 +159,17 @@ namespace CmsShop.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public void RemoveProduct(int productId)
+        {
+            // inicjalizacja listy CartVM
+            List<CartVM> cart = Session["cart"] as List<CartVM>;
+
+            // pobranie CartVM
+            CartVM model = cart.FirstOrDefault(x => x.ProductId == productId);
+
+            //usuwanie produktu
+            cart.Remove(model);
+        }
 
 
 
