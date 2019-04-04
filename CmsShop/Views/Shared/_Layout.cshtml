@@ -64,6 +64,25 @@
             <div class="user">
                 <ul class="nav navbar-nav">
                     @Html.Action("PagesMenuPartial", "Pages")
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li> <a href="/account/logout">Wyloguj</a></li>
+                    }
+                    else
+                    {
+                        if (ViewBag.Title == "Zaloguj")
+                        {
+                            <li class="active"> <a href="/account/login">Zaloguj</a></li>
+                        }
+                        else
+                        {
+                            <li> <a href="/account/login">Zaloguj</a></li>
+                        }
+                    }
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li> @Html.Action("UserNavPartial", "Account", new { area = "" } )</li>
+                    }
                 </ul>
             </div>
             <p>&copy; @DateTime.Now.Year — Zoologiczny sklep internetowy</p>

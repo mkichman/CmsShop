@@ -1,5 +1,6 @@
 ﻿using CmsShop.Models.Data;
 using CmsShop.Models.ViewModels.Account;
+using CmsShop.Views.Account;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -127,9 +128,30 @@ namespace CmsShop.Controllers
         {
             FormsAuthentication.SignOut();
 
+
             return Redirect("~/account/login");
         }
 
-        
+        public ActionResult UserNavPartial()
+        {
+            // pobranie username
+            string username = User.Identity.Name;
+
+            // deklaracja modelu
+            UserNavPartialVM model;
+
+            using (Db db = new Db())
+            {
+                // pobranie użytkownika
+                UserDTO dto = db.Users.FirstOrDefault(x => x.Username == username);
+
+                model = new UserNavPartialVM()
+                {
+                    FirstName = dto.FirstName,
+                    LastName = dto.LastName
+                };
+            }
+            return PartialView(model);
+        }
     }
 }
