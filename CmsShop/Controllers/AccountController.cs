@@ -2,6 +2,7 @@
 using CmsShop.Models.ViewModels.Account;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace CmsShop.Controllers
 {
@@ -23,6 +24,36 @@ namespace CmsShop.Controllers
 
             // zwrócenie widoku logowania
             return View();
+        }
+
+        // POST: /account/login
+        [HttpPost]
+        public ActionResult Login(LoginUserVM model)
+        {
+            // sprawdzenie czy formularze są dobrze wypełnione
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // sprawdzenie czy użytkownik jest prawidłowy
+            bool isValid = false;
+            using(Db db = new Db())
+            {
+                if (db.Users.Any(x => x.Username.Equals(model.Username) && x.Password.Equals(model.Password)))
+                {
+                    isValid = true;
+                }
+            }
+            if (!isValid)
+            {
+                ModelState.AddModelError("", "Nieprawidłowa nazwa użytkownika lub hasło");
+                return View(model);
+            } else
+            {
+                FormsAuthentication.SetAuthCookie(model.Username, model.RememberMe);
+                return Redirect(FormsAuthentication.GetRedirectUrl(model.Username, model.RememberMe));
+            }
         }
 
         // GET: /account/create-account
@@ -91,6 +122,13 @@ namespace CmsShop.Controllers
             return Redirect("~/account/login");
         }
 
+        // GET: /account/logout
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+
+            return Redirect("~/account/login");
+        }
 
         
     }
