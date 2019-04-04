@@ -1,8 +1,9 @@
 ﻿@model CmsShop.Models.ViewModels.Cart.CartVM
 
-<div class="ajaxcart" >
-    Koszyk: @Model.Quantity / @Model.Price zł.
-    <br/>
+<div class="ajaxcart">
+    <img src="~/Images/shopping-cart-solid.svg" class="cartimg"/> <br />
+    @Model.Quantity / @Model.Price zł.
+    <br />
     @Html.ActionLink("Koszyk", "Index")
 
 </div>

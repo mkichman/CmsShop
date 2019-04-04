@@ -14,11 +14,51 @@
         <a href="/" class="navbar-brand"><img src="~/Images/logo.png" /><h1>WhaleSpot</h1></a>
     </div>
     <div class="pull-right">
-        <a href="/Admin/Dashboard">Admin</a>
+
+        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <ul class="navbar-collapse">
+                @Html.ActionLink("Dashboard", "Index", "Dashboard", new { area = "Admin" }, null)
+            </ul>
+        }
+        else
+        {
+            if (ViewBag.Title != "Koszyk szczegóły")
+            {
+                @Html.Action("CartPartial", "Cart")
+            }
+        }
+            <ul>
+                @if (Request.IsAuthenticated)
+                {
+                    <a href="/account/logout">Wyloguj</a>
+                }
+                else
+                {
+                    if (ViewBag.Title == "Zaloguj")
+                    {
+                       <a href="/account/login">Zaloguj</a>
+                    }
+                    else
+                    {
+                        <a href="/account/login">Zaloguj</a>
+                    }
+                }
+                @if (Request.IsAuthenticated && User.IsInRole("User"))
+                {
+                    if (ViewBag.Title == "Profil użytkownika")
+                    {
+                        <li class="active"> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
+                    }
+                    else
+                    {
+                        <li> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
+                    }
+
+                }
+            </ul>
     </div>
     <div class="navbar navbar-inverse navbar-fixed-topcancel">
-
-
         <div class="container">
             <div class="navbar-header">
 
@@ -63,47 +103,9 @@
             <div class="user">
                 <ul class="nav navbar-nav">
                     @Html.Action("PagesMenuPartial", "Pages")
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li> <a href="/account/logout">Wyloguj</a></li>
-                    }
-                    else
-                    {
-                        if (ViewBag.Title == "Zaloguj")
-                        {
-                            <li class="active"> <a href="/account/login">Zaloguj</a></li>
-                        }
-                        else
-                        {
-                            <li> <a href="/account/login">Zaloguj</a></li>
-                        }
-                    }
-                    @if (Request.IsAuthenticated && User.IsInRole("User"))
-                    {
-                        if (ViewBag.Title == "Profil użytkownika")
-                        {
-                            <li class="active"> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
-                        }
-                        else
-                        {
-                            <li> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
-                        }
-
-                    }
+                   
                 </ul>
-                @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-                {
-                    <ul class="navbar-collapse">
-                        <li> @Html.ActionLink("Dashboard", "Index", "Dashboard", new { area = "Admin" }, null)</li>
-                    </ul>
-                }
-                else
-                {
-                    if (ViewBag.Title != "Koszyk szczegóły")
-                    {
-                        @Html.Action("CartPartial", "Cart")
-                    }
-                }
+               
             </div>
             <p>&copy; @DateTime.Now.Year — Zoologiczny sklep internetowy</p>
         </footer>
