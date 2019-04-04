@@ -153,6 +153,7 @@ namespace CmsShop.Controllers
             }
             return PartialView(model);
         }
+
         [ActionName("user-profile")]
         public ActionResult UserProfile()
         {
@@ -173,7 +174,61 @@ namespace CmsShop.Controllers
             return View("UserProfile",model);
         }
 
+        // POST: /account/user-profile
+        [HttpPost]
+        [ActionName("user-profile")]
+        public ActionResult UserProfile(UserProfileVM model)
+        {
+            // sprawdzenie model state
+            if(!ModelState.IsValid)
+            {
+                return View("UserProfile", model);
+            }
 
+            // sprawdzenie czy hasła się zgadzają 
+            if (!string.IsNullOrWhiteSpace(model.Password))
+            {
+                if (!model.Password.Equals(model.ConfirmPassword))
+                {
+                    ModelState.AddModelError("", "Hasła nie pasują do siebie");
+                    return View("UserProfile", model);
+                }
+            }
+
+            using(Db db = new Db())
+            {
+                // pobranie nazwy użytkownika 
+                string username = User.Identity.Name;
+                
+                // sprawdzenie unikalności nazwy użytkownika
+                if (db.Users.Where(x => x.Id != model.Id).Any(x => x.Username == username))
+                {
+                    ModelState.AddModelError("", "Ta nazwa użytkownika jest już zajęta");
+                    model.Username = "";
+                    return View("UserProfile", model);
+                }
+
+                // edycja DTO
+                UserDTO dto = db.Users.Find(model.Id);
+                dto.FirstName = model.FirstName;
+                dto.LastName = model.LastName;
+                dto.EmailAddress = model.EmailAddress;
+                dto.Username = model.Username;
+
+                if (!string.IsNullOrWhiteSpace(model.Password))
+                {
+                    dto.Password = model.Password;
+                }
+
+                // zapis 
+                db.SaveChanges();
+            }
+
+            // ustawienie komunikatu 
+            TempData["SM"] = "Profil został zaktualizowany";
+
+            return Redirect("~/account/user-profile");
+        }
 
 
 
