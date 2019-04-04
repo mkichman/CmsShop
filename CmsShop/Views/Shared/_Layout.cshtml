@@ -14,7 +14,6 @@
         <a href="/" class="navbar-brand"><img src="~/Images/logo.png" /><h1>WhaleSpot</h1></a>
     </div>
     <div class="pull-right">
-        @Html.Action("CartPartial", "Cart")
         <a href="/Admin/Dashboard">Admin</a>
     </div>
     <div class="navbar navbar-inverse navbar-fixed-topcancel">
@@ -79,11 +78,32 @@
                             <li> <a href="/account/login">Zaloguj</a></li>
                         }
                     }
-                    @if (Request.IsAuthenticated)
+                    @if (Request.IsAuthenticated && User.IsInRole("User"))
                     {
-                        <li> @Html.Action("UserNavPartial", "Account", new { area = "" } )</li>
+                        if (ViewBag.Title == "Profil użytkownika")
+                        {
+                            <li class="active"> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
+                        }
+                        else
+                        {
+                            <li> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
+                        }
+
                     }
                 </ul>
+                @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <ul class="navbar-collapse">
+                        <li> @Html.ActionLink("Dashboard", "Index", "Dashboard", new { area = "Admin" }, null)</li>
+                    </ul>
+                }
+                else
+                {
+                    if (ViewBag.Title != "Koszyk szczegóły")
+                    {
+                        @Html.Action("CartPartial", "Cart")
+                    }
+                }
             </div>
             <p>&copy; @DateTime.Now.Year — Zoologiczny sklep internetowy</p>
         </footer>
