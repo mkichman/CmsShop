@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using CmsShop.Models.Data;
+using CmsShop.Models.ViewModels.Account;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace CmsShop.Controllers
 {
@@ -22,12 +25,70 @@ namespace CmsShop.Controllers
             return View();
         }
 
-
         // GET: /account/create-account
         [ActionName("create-account")]
         public ActionResult CreateAccount()
         {
             return View("CreateAccount");
+        }
+
+        // POST: /account/create-account
+        [ActionName("create-account")]
+        [HttpPost]
+        public ActionResult CreateAccount(UserVM model)
+        {
+            // sprawdzenie model state
+            if(!ModelState.IsValid)
+            {
+                return View("CreateAccount", model);
+            }
+
+            // sprawdzenie hasła
+            if(!model.Password.Equals(model.ConfirmPassword))
+            {
+                ModelState.AddModelError("", "Podane hasła się różnią");
+                return View("CreateAccount", model);
+            }
+
+            // sprawdzenie unikalności nazwy użytkownika
+            using (Db db = new Db())
+            {
+                if(db.Users.Any(x => x.Username.Equals(model.Username)))
+                {
+                    ModelState.AddModelError("", "Ta nazwa jest już zajęta");
+                    model.Username = "";
+                    return View("CreateAccount", model);
+                }
+                // utworzenie użytkownika
+                UserDTO userDTO = new UserDTO()
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    EmailAddress = model.EmailAddress,
+                    Username = model.Username,
+                    Password = model.Password,
+                };
+
+                // dodanie użytkownika i zapis na bazie
+                db.Users.Add(userDTO);
+                db.SaveChanges();
+
+                // dodanie roli dla użytkownika
+                UserRoleDTO userRoleDTO = new UserRoleDTO()
+                {
+                    UserId = userDTO.Id,
+                    RoleId = 2
+                };
+
+                // dodanie roli
+                db.UserRoles.Add(userRoleDTO);
+                db.SaveChanges();
+            }
+
+            // komunikat 
+            TempData["SM"] = "Jesteś teraz zarejestrowany i możesz się zalogować";
+
+            return Redirect("~/account/login");
         }
 
 
