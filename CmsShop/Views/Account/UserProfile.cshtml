@@ -1,10 +1,10 @@
-﻿@model CmsShop.Models.ViewModels.Account.UserVM
+﻿@model CmsShop.Models.ViewModels.Account.UserProfileVM
 
 @{
-    ViewBag.Title = "Utwórz konto";
+    ViewBag.Title = "Profil użytkownika";
 }
 
-<h2>Utwórz konto</h2>
+<h2>Profil użytkownika</h2>
 
 @if (TempData["SM"] != null)
 {
@@ -20,8 +20,10 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
         <div class="form-group">
-            <label class="control-label col-md-2"> Imię</label>
+            <label class="control-label col-md-2" for="HasSidebar"> Imie</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
@@ -29,7 +31,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2"> Nazwisko</label>
+            <label class="control-label col-md-2" for="HasSidebar"> Nazwisko</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
@@ -37,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2"> Email</label>
+            <label class="control-label col-md-2" for="HasSidebar"> Email</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
@@ -45,7 +47,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2"> Nazwa użytkownika</label>
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
@@ -53,7 +55,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2"> Hasło</label>
+            <label class="control-label col-md-2" for="HasSidebar"> Potwierdź hasło</label>
             <div class="col-md-10">
                 @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
@@ -61,7 +63,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2"> Potwierdź hasło</label>
+            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
@@ -70,9 +72,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Dodaj" class="btn btn-default" />
+                <input type="submit" value="Edytuj" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-

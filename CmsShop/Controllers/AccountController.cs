@@ -153,5 +153,30 @@ namespace CmsShop.Controllers
             }
             return PartialView(model);
         }
+        [ActionName("user-profile")]
+        public ActionResult UserProfile()
+        {
+            // pobranie nazwy użytkownika 
+            string username = User.Identity.Name;
+
+            // deklaracja modelu
+            UserProfileVM model;
+
+            using(Db db = new Db())
+            {
+                // pobranie użytkownika 
+                UserDTO dto = db.Users.FirstOrDefault(x => x.Username == username);
+
+                model = new UserProfileVM(dto);
+            }
+            
+            return View("UserProfile",model);
+        }
+
+
+
+
+
+
     }
 }
