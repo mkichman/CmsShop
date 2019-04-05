@@ -1,5 +1,6 @@
 ﻿using CmsShop.Models.Data;
 using CmsShop.Models.ViewModels.Cart;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -171,6 +172,66 @@ namespace CmsShop.Controllers
             cart.Remove(model);
         }
 
+        public ActionResult PaypalPartial()
+        {
+            // inicjalizacja listy CartVM
+            List<CartVM> cart = Session["cart"] as List<CartVM>;
+
+            return PartialView(cart);
+        }
+
+        [HttpPost]
+        public void PlaceOrder()
+        {
+            // pobranie zawartości koszyka z sesji
+            List<CartVM> cart = Session["cart"] as List<CartVM>;
+
+            // pobranie nazwy użytkownika
+            string username = User.Identity.Name;
+
+            // deklaracja numer zamówienia
+            int orderId = 0;
+
+            using (Db db = new Db())
+            {
+                // inicjalizacja OrderDTO
+                OrderDTO orderDTO = new OrderDTO();
+
+                // pobranie user id
+                var user = db.Users.FirstOrDefault(x => x.Username == username);
+                int userId = user.Id;
+
+                // ustawienie DTO i zapis 
+                orderDTO.UserId = userId;
+                orderDTO.CreatedAt = DateTime.Now;
+
+                db.Orders.Add(orderDTO);
+                db.SaveChanges();
+
+                // pobranie id zapisanego zamówienia
+                orderId = orderDTO.OrderId;
+
+                // inicjalizacja orderDetailsDTO
+                OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
+
+                foreach(var item in cart)
+                {
+                    orderDetailsDTO.OrderId = orderId;
+                    orderDetailsDTO.UserId = userId;
+                    orderDetailsDTO.ProductId = item.ProductId;
+                    orderDetailsDTO.Quantity = item.Quantity;
+
+                    db.OrderDetails.Add(orderDetailsDTO);
+                    db.SaveChanges();
+                }
+            }
+
+            // wysłanie emaila do admina 
+
+
+            // zresetowanie sesji
+            Session["cart"] = null;
+        }
 
 
     }
