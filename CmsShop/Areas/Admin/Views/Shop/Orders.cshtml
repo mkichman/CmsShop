@@ -25,6 +25,9 @@ else
                             Nazwa użytkownika
                         </th>
                         <th>
+                            Adres dostawy
+                        </th>
+                        <th>
                             Szczegóły zamówienia
                         </th>
                         <th>
@@ -38,27 +41,33 @@ else
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrderNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Username)
-                            </td>
-                            <td>
-                                @foreach (var item2 in item.ProductsAndQty)
-                                {
-                                    @item2.Key @:x @item2.Value  <br />
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CreatedAt)
-                            </td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Username)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                            @Html.DisplayFor(modelItem => item.Post)
+                            @Html.DisplayFor(modelItem => item.PostOffice)
+                        </td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Total)
-                            </td>
-                        </tr>
+                        <td>
+                            @foreach (var item2 in item.ProductsAndQty)
+                            {
+                                @item2.Key @:x @item2.Value  <br />
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                    </tr>
                     }
                 </tbody>
                 <tfoot>
@@ -68,6 +77,9 @@ else
                         </th>
                         <th>
                             Nazwa użytkownika
+                        </th>
+                        <th>
+                            Adres dostawy
                         </th>
                         <th>
                             Szczegóły zamówienia

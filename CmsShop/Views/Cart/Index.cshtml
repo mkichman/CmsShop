@@ -1,11 +1,13 @@
 ﻿@model IEnumerable<CmsShop.Models.ViewModels.Cart.CartVM>
 
 @{
+    /**/
+
     ViewBag.Title = "Koszyk szczegóły";
     int count = 1;
 }
 
-<h2>Koszyk szczegóły</h2>
+<h2 class="hiding">Koszyk szczegóły</h2>
 
 @if (ViewBag.Message != null)
 {
@@ -13,11 +15,15 @@
 }
 else
 {
-    <div class="ajaxbg">
-        <span>
-            <img src="~/Content/img/ajax-loader.gif" />
-        </span>
+    <div class="data-shipping" style="display: none">
+        <p> Czy chcesz zmodifykować dane do wysyłki?</p>
+        <a href="/account/user-profile" class="btn btn-primary"> Tak</a>
+        <a href="#" class="placeorder btn btn-primary"> Nie </a>
     </div>
+    <div class="paypal" style="display: none">
+        <p> Zrealizuj płatność za pomocą: </p>
+    </div>
+    <a href="#" id="paypal-button-container"> </a>
     <table class="table">
         <tr>
             <th>
@@ -85,7 +91,7 @@ else
     <br />
     if (Request.IsAuthenticated)
     {
-        <a href="#" class="placeorder btn btn-primary pull-right" id="paypal-button-container">Zapłać</a>
+        <a href="#" class="pay btn btn-primary pull-right">Zapłać</a>
     }
     else
     {
@@ -104,8 +110,6 @@ else
     <script>
 
         $(function () {
-
-
 
             // zwiekszenie ilosci produktu w koszyku
             $("a.incrproduct").click(function (e) {
@@ -196,47 +200,38 @@ else
 
 
             // składanie zamówienia
-            $("a.placeorder").click(function (e) {
+            $("a.pay").click(function (e) {
                 e.preventDefault();
                 var $this = $(this);
 
-                var url = "/cart/PlaceOrder";
+                $(".table").hide();
+                $(".pay").hide();
+                $(".hiding").hide();
+                $(".data-shipping").show();
 
-                $(".ajaxbg").show();
+                $("a.placeorder").click(function (e) {
+                    e.preventDefault();
+                    var url = "/cart/PlaceOrder";
 
-                $.post(url, {}, function (data) {
+                    $.post(url, {}, function () {
 
-                    $(".ajaxbg span").text("Zostaniesz teraz przekierowany do systemu PayPal..");
+                        $(".data-shipping").hide();
+                        $(".paypal").show();
+                        paypal.Buttons().render('#paypal-button-container');
+                    });
 
                 });
+
+                // Render the PayPal button into #paypal-button-container
+                /*  paypal.Buttons({
+
+                      // Set up the transaction
+
+
+
+                  .render('#paypal-button-container');*/
+
             });
-        /*
-            // Render the PayPal button into #paypal-button-container
-            paypal.Buttons({
-
-                // Set up the transaction
-                createOrder: function (data, actions) {
-                    var gt = parseFloat($("td.grandtotal span").text());
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: gt
-                            }
-                        }]
-                    });
-                },
-
-                // Finalize the transaction
-                onApprove: function (data, actions) {
-                    return actions.order.capture().then(function (details) {
-                        // Show a success message to the buyer
-                        alert('Transaction completed by ' + details.payer.name.given_name + '!');
-                    });
-                }
-
-
-            }).render('#paypal-button-container');*/
-
         });
     </script>
 

@@ -55,7 +55,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2" for="HasSidebar"> Potwierdź hasło</label>
+            <label class="control-label col-md-2" for="HasSidebar"> Podaj hasło</label>
             <div class="col-md-10">
                 @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
@@ -63,10 +63,32 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" for="HasSidebar"> Potwierdź hasło</label>
             <div class="col-md-10">
                 @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Adres</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2"> Kod pocztowy</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Post, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Post, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2"> Poczta</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PostOffice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PostOffice, "", new { @class = "text-danger" })
             </div>
         </div>
 

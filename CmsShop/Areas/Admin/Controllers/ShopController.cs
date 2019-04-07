@@ -542,6 +542,9 @@ namespace CmsShop.Areas.Admin.Controllers
                     // pobranie użytkownika
                     UserDTO user = db.Users.Where(x => x.Id == order.UserId).FirstOrDefault();
                     string username = user.Username;
+                    string address = user.Address;
+                    string post = user.Post;
+                    string postOffice = user.PostOffice;
 
                     foreach(var orderDetails in orderDetailsList)
                     {
@@ -565,6 +568,9 @@ namespace CmsShop.Areas.Admin.Controllers
                     {
                         OrderNumber = order.OrderId,
                         Username = username,
+                        Address = address,
+                        Post = post,
+                        PostOffice = postOffice,
                         Total = total,
                         ProductsAndQty = productsAndQty,
                         CreatedAt = order.CreatedAt

@@ -101,6 +101,9 @@ namespace CmsShop.Controllers
                     EmailAddress = model.EmailAddress,
                     Username = model.Username,
                     Password = model.Password,
+                    Address = model.Address,
+                    Post = model.Post,
+                    PostOffice = model.PostOffice
                 };
 
                 // dodanie użytkownika i zapis na bazie
