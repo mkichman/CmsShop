@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CmsShop.Models.Data
 {
-    [Table("OrderDetails")]
+    [Table("tblOrderDetails")]
     public class OrderDetailsDTO
     {
         [Key]
@@ -13,11 +14,12 @@ namespace CmsShop.Models.Data
         public int ProductId { get; set; }
         public int Quantity { get; set; }
 
-        [ForeignKey("UserId")]
-        public virtual UserDTO Users { get; set; }
-
+        
         [ForeignKey("OrderId")]
         public virtual OrderDTO Orders { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual UserDTO Users { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual ProductDTO Products { get; set; }

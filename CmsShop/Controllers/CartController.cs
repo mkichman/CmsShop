@@ -225,10 +225,7 @@ namespace CmsShop.Controllers
                     db.SaveChanges();
                 }
             }
-
-            // wysłanie emaila do admina 
-
-
+                       
             // zresetowanie sesji
             Session["cart"] = null;
         }

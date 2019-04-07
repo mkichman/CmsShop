@@ -82,31 +82,10 @@ else
 
     </table>
 
-    <div class="paypaldiv">
-        <form class="paypalform" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-            <input type="hidden" name="cmd" value="_cart">
-            <input type="hidden" name="upload" value="1">
-            <input type="hidden" name="business" value="magdalena.kichman-facilitator@onet.pl">
-
-            @foreach (var item in Model)
-            {
-                <input type="hidden" name="item_name_@count" value="@item.ProductName">
-                <input type="hidden" name="amount_@count" value="@item.Price">
-                <input type="hidden" name="quantity_@count" value="@item.Quantity">
-                count++;
-            }
-
-            <input type="hidden" name="currency_code" value="PLN">
-            <input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Dokonuj płatności w systemie PayPal - jest szybki, bezpłatny i bezpieczny!">
-        </form>
-    </div>
-
-
-
     <br />
     if (Request.IsAuthenticated)
     {
-        <a href="#" class="placeorder btn btn-primary pull-right">Zapłać</a>
+        <a href="#" class="placeorder btn btn-primary pull-right" id="paypal-button-container">Zapłać</a>
     }
     else
     {
@@ -120,7 +99,7 @@ else
 
 
 @section scripts {
-
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=PLN"></script>
 
     <script>
 
@@ -214,24 +193,49 @@ else
                 });
             });
 
+
+
             // składanie zamówienia
             $("a.placeorder").click(function (e) {
                 e.preventDefault();
                 var $this = $(this);
-               
+
                 var url = "/cart/PlaceOrder";
 
                 $(".ajaxbg").show();
 
-                $.post(url, { }, function (data) {
+                $.post(url, {}, function (data) {
 
                     $(".ajaxbg span").text("Zostaniesz teraz przekierowany do systemu PayPal..");
-                    setTimeout(function () {
-                        $('form input[name="submit"]').click();
-                    }, 2000);
 
                 });
             });
+        /*
+            // Render the PayPal button into #paypal-button-container
+            paypal.Buttons({
+
+                // Set up the transaction
+                createOrder: function (data, actions) {
+                    var gt = parseFloat($("td.grandtotal span").text());
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: gt
+                            }
+                        }]
+                    });
+                },
+
+                // Finalize the transaction
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        // Show a success message to the buyer
+                        alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                    });
+                }
+
+
+            }).render('#paypal-button-container');*/
 
         });
     </script>
