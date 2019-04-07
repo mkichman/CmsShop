@@ -30,6 +30,7 @@ namespace CmsShop
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                        "~/Content/menu.css"
+                       
                       ));
         }
     }
