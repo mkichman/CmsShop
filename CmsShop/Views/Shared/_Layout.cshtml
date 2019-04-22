@@ -45,35 +45,39 @@
                 @Html.Action("CartPartial", "Cart")
             }
         }
-        <ul>
-            @if (Request.IsAuthenticated)
-            {
-                <a href="/account/logout">Wyloguj</a>
-            }
-            else
-            {
-                if (ViewBag.Title == "Zaloguj")
+            <div class="user">
+                @if (Request.IsAuthenticated)
                 {
-                    <a href="/account/login">Zaloguj</a>
+                    <a href="/account/logout" class="nav-href">Wyloguj</a>
                 }
                 else
                 {
-                    <a href="/account/login">Zaloguj</a>
+                    if (ViewBag.Title == "Zaloguj")
+                    {
+                        <img src="/Images/user-circle-solid.svg" class="userimg" />
+                        <br />
+                        <a href="/account/login" class="nav-href">Zaloguj</a>
+                    }
+                    else
+                    {
+                        <img src="/Images/user-circle-solid.svg" class="userimg" />
+                        <br />
+                        <a href="/account/login" class="nav-href">Zaloguj</a>
+                    }
                 }
-            }
-            @if (Request.IsAuthenticated && User.IsInRole("User"))
-            {
-                if (ViewBag.Title == "Profil użytkownika")
+                @if (Request.IsAuthenticated && User.IsInRole("User"))
                 {
-                    <li class="active"> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
-                }
-                else
-                {
-                    <li> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
-                }
+                    if (ViewBag.Title == "Profil użytkownika")
+                    {
+                        <li class="active"> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
+                    }
+                    else
+                    {
+                        <li> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
+                    }
 
-            }
-        </ul>
+                }
+            </div>
     </div>
     <div class="navbar navbar-inverse navbar-fixed-topcancel">
         <div class="container">
@@ -86,7 +90,7 @@
                 </button>
             </div>
             <div class="navbar-collapse collapse">
-                <div class="nav navbar-nav">
+                <div class="nav navbar-nav menu-nav">
                     @Html.Action("CategoryMenuPartial", "Shop")
 
                 </div>
@@ -100,7 +104,7 @@
 
             @if (ViewBag.Sidebar == "Tak")
             {
-                <div class="col-xs-12 col-md-7">
+                <div>
                     @RenderBody()
                 </div>
                 <div class="col-xs-12 col-md-3">
@@ -109,22 +113,22 @@
             }
             else
             {
-                <div class="col-xs-12 col-md-10">
+                <div>
                     @RenderBody()
                 </div>
             }
 
         </div>
-        <hr />
+        
         <footer>
             <div class="user">
-                <ul class="nav navbar-nav">
+                <ul class=" nav navbar-nav footer-nav">
                     @Html.Action("PagesMenuPartial", "Pages")
                    
                 </ul>
                
             </div>
-            <p>&copy; @DateTime.Now.Year — Zoologiczny sklep internetowy</p>
+            <p class="copyright">&copy; WhaleSpot @DateTime.Now.Year</p>
         </footer>
     </div>
 

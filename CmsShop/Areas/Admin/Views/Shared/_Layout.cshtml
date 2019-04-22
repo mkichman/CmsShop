@@ -9,7 +9,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-topcancel">
+    <div class="navbar navbar-inverse navbar-fixed-topcancel navbar-admin">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -17,20 +17,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/Admin/Dashboard" class="navbar-brand">Dashboard </a>
+                <a href="/Admin/Dashboard" class="navbar-brand dashboard-nav">Dashboard </a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav admin-nav">
                     <li> <a href="/Admin/Pages/">Strony</a></li>
-                    <li> <a href="/Admin/Pages/EditSidebar">Pasek boczny</a></li>
                     <li> <a href="/Admin/Shop/Categories">Kategorie</a></li>
                     <li> <a href="/Admin/Shop/Products">Produkty</a></li>
                     <li> <a href="/Admin/Shop/Orders">Zamówienia</a></li>
                 </ul>
-                <ul class="navbar-right">
-                    <a href="/" class="navbar-brand">Powrót do sklepu</a>
-                </ul>
             </div>
+            <ul class="navbar-right backToShop">
+                <a href="/" class="navbar-brand">Powrót do sklepu</a>
+            </ul>
         </div>
     </div>
     <div class="container body-content">

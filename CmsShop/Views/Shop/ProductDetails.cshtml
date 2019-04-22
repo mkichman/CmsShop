@@ -4,50 +4,47 @@
     ViewBag.Title = Model.Name;
 }
 
-<h2>Model.Name</h2>
 
-<br />
+<div class="rowProductDetails">
 
-<div class="row">
+    <div class="productDetails">
+        <img src="/Images/Uploads/Products/@Model.Id/thumbs/@Model.ImageName" class="mainPhoto" />
 
-    <div class="col-xs-12 col-md-4">
-        <img src="/Images/Uploads/Products/@Model.Id/thumbs/@Model.ImageName" />
+        <div class="fancyboxdiv">
+            @foreach (var image in Model.GalleryImages)
+            {
+                <div class="imgProductDiv">
+                    <a class="fancybox" rel="gallery1" href="/Images/Uploads/Products/@Model.Id/Gallery/@image">
+                        <img src="/Images/Uploads/Products/@Model.Id/Gallery/Thumbs/@image" class="imgProduct" />
+                    </a>
+                </div>
+            }
+        </div>
     </div>
-    <div class="col-xs-12 col-md-8">
+
+</div>
+
+<div class="productDetailsDescription-gray">
+    <div class="productDetailsDescription">
+        <h3>@Model.Name</h3>
         @Html.DisplayFor(model => model.Description)
         <br />
-        @Html.DisplayFor(model => model.Price)
         <br />
+       
+        <span class="productPrice pull-right">@Html.DisplayFor(model => model.Price)</span>
 
-        <div class="addtocart">
-            <a href="#" class="addtocart">Dodaj do koszyka</a>
+        <span class="addtocart pull-right">
+            <a href="#" class="addtocart btn-login btn-cart">Dodaj do koszyka</a>
             <span class="loader">
                 <img src="~/Content/img/ajax-loader.gif" />
             </span>
             <span class="ajaxmsg">
                 Produkt został dodany do koszyka.
             </span>
-        </div>
+        </span>
     </div>
 </div>
 
-<hr />
-
-<div>
-    <h3>Zdjęcia produktu</h3>
-    <div class="col-xs-12 fancyboxdiv">
-        <br />
-        <br />
-        @foreach (var image in Model.GalleryImages)
-        {
-            <div style="display: inline-block">
-                <a class="fancybox" rel="gallery1" href="/Images/Uploads/Products/@Model.Id/Gallery/@image">
-                    <img src="/Images/Uploads/Products/@Model.Id/Gallery/Thumbs/@image" />
-                </a>
-            </div>
-        }
-    </div>
-</div>
 
 <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
 

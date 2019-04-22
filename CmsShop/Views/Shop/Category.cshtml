@@ -6,43 +6,37 @@
 
 <h2>@ViewBag.CategoryName</h2>
 
-<table class="table">
-    <tr>
-        <th>
-           Nazwa
-        </th>
-        <th>
-          Opis
-        </th>
-        <th>
-            Cena
-        </th>
-        <th>
-           Zdjęcie
-        </th>
-        <th></th>
-    </tr>
+<table class="tableProducts">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            <a href="/shop/product-details/@item.Slug">
-                <img src="/Images/Uploads/Products/@item.Id/Thumbs/@item.ImageName"/>
-            </a>
-        </td>
-        <td>
-            <a href="/shop/product-details/@item.Slug">Szczegóły</a>
-        </td>
-    </tr>
-}
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td rowspan="4" class="tableImage">
+                <a href="/shop/product-details/@item.Slug">
+                    <img src="/Images/Uploads/Products/@item.Id/Thumbs/@item.ImageName" class="productImg" />
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td class="productName">
+                @Html.DisplayFor(modelItem => item.Name)
+
+            </td>
+        </tr>
+        <tr>
+            <td class="productDescription">
+                @Html.DisplayFor(modelItem => item.Description)
+
+            </td>
+        </tr>
+        <tr>
+            <td class="productPrice">
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+        </tr>
+
+
+    }
 
 </table>

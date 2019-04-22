@@ -7,11 +7,12 @@
     int count = 1;
 }
 
-<h2 class="hiding">Koszyk szczegóły</h2>
+<h6 class="hiding">Koszyk szczegóły</h6>
+<hr class="headerUnderline" />
 
 @if (ViewBag.Message != null)
 {
-    <h3>@ViewBag.Message</h3>
+    <h2>@ViewBag.Message</h2>
 }
 else
 {
@@ -24,70 +25,78 @@ else
         <p> Zrealizuj płatność za pomocą: </p>
     </div>
     <a href="#" id="paypal-button-container"> </a>
-    <table class="table">
-        <tr>
-            <th>
-                Nazwa
-            </th>
-            <th>
-                Ilość
-            </th>
-            <th>
-                Cena
-            </th>
-            <th>
-                Zdjęcie
-            </th>
-            <th>
-                Zmień ilość
-            </th>
-            <th>
-                Wartość
-            </th>
-            <th>
+    <div class="table-responsive">
+        <table class="table cartTable">
+            <tr>
+                <th>
+                    Nazwa
+                </th>
 
-            </th>
+                <th></th>
+                <th>
+                    Ilość
+                </th>
 
-            <th></th>
-        </tr>
+                <th></th>
+                <th>
+                    Cena
+                </th>
 
-        @foreach (var item in Model)
-        {
+                <th></th>
+                <th>
+                    Zdjęcie
+                </th>
+                <th>
+                    Zmień ilość
+                </th>
+                <th>
+                    Wartość
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
+                <td></td>
                 <td class="qty@(item.ProductId)">
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
+                <td></td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price) zł.
                 </td>
+                <td></td>
                 <td>
                     <img src="/Images/Uploads/Products/@item.ProductId/Thumbs/@item.Image" />
                 </td>
-                <td>
-                    <a href="#" class="incrproduct" data-id="@item.ProductId">+</a>
-                    <a href="#" class="decrproduct" data-id="@item.ProductId">-</a>
-                    <a href="#" class="removeproduct" data-id="@item.ProductId">Usuń</a>
+                <td class="cAction">
+                    <a href="#" class="incrproduct cartActions" data-id="@item.ProductId">+</a>
+                    <a href="#" class="removeproduct cartActions" data-id="@item.ProductId">Usuń</a>
+                    <a href="#" class="decrproduct cartActions" data-id="@item.ProductId">-</a>
                 </td>
                 <td class="total@(item.ProductId)">
                     @Html.DisplayFor(modelItem => item.Total) zł.
                 </td>
             </tr>
-        }
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="grandtotal"><b>Razem: </b><span>@ViewBag.GrandTotal</span>zł.</td>
-        </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>             
+                <td></td>
+                <td class="grandtotal"><b>Razem: </b><span>@ViewBag.GrandTotal</span>zł.</td>
+            </tr>
 
-    </table>
-
+        </table>
+    </div>
     <br />
     if (Request.IsAuthenticated)
     {
@@ -95,7 +104,7 @@ else
     }
     else
     {
-        <p> Zaloguj się, aby zrealizować zamówienie</p>
+        <h3 class="loginPlaceorder"> Zaloguj się, aby zrealizować zamówienie</h3>
     }
 
 
@@ -220,8 +229,7 @@ else
                         paypal.Buttons().render('#paypal-button-container');
                     });
 
-                });
-
+                });          
                 // Render the PayPal button into #paypal-button-container
                 /*  paypal.Buttons({
 
