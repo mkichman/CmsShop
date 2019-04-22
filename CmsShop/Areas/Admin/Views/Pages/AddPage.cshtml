@@ -4,7 +4,8 @@
     ViewBag.Title = "Dodawanie strony";
 }
 
-<h2>Dodawanie strony</h2>
+<h6>Dodawanie strony</h6>
+<hr class="headerUnderline" />
 
 @if (TempData["SM"] != null)
 {
@@ -19,7 +20,6 @@
 
     <div class="form-horizontal">
 
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -47,24 +47,24 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.HasSidebar, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.HasSidebar)
-                    @Html.ValidationMessageFor(model => model.HasSidebar, "", new { @class = "text-danger" })
-                </div>
+
+            <div class="checkbox">
+                @Html.EditorFor(model => model.HasSidebar)
+                @Html.ValidationMessageFor(model => model.HasSidebar, "", new { @class = "text-danger" })
             </div>
+
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Dodaj stronę" class="btn btn-default" />
+                <input type="submit" value="Dodaj stronę" class="btn btn-login" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Powrót", "Index")
+    @Html.ActionLink("Powrót do listy stron", "Index", null, new { @class = "backToList" })
 </div>
 
 @section scripts {

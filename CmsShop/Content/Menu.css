@@ -25,7 +25,7 @@
     }
 
         .menu-nav > li:nth-of-type(3) {
-            width: 17%;
+            width: 18%;
         }
 
         .menu-nav > li:nth-of-type(2) {
@@ -371,7 +371,7 @@ h3 {
     color: #6B6B6B;
 }
 
-.btn-cart {
+.addtocart.btn-cart {
     width: 100%;
     font-size: 15px;
     padding: 10px;
@@ -442,7 +442,7 @@ footer {
         background-color: white;
     }
 
-.navbar-collapse.collapse {
+.admin-navigation.navbar-collapse.collapse {
     display: flex !important;
     justify-content: center;
     width: 70%;
@@ -451,6 +451,145 @@ footer {
 .backToShop {
     margin-top: -60px;
 }
+
 .dashboard-nav {
     line-height: 2;
+}
+
+.addPage {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 20px;
+}
+
+    .addPage a {
+        color: #E6007E;
+    }
+
+        .addPage a:hover {
+            text-decoration: none;
+            color: #99CCFF;
+        }
+
+.btn-edit {
+    background-color: #99CCFF;
+    padding: 9px;
+    border-radius: 8px;
+    color: white;
+    margin-left: 5%;
+}
+
+    .btn-edit:hover {
+        text-decoration: none;
+        background-color: #E6007E;
+        color: white;
+    }
+
+.new-cat {
+    display: flex;
+}
+
+#newCatName {
+    margin-left: 20px;
+}
+
+.addCategory {
+    margin-left: 45px;
+}
+
+    .addCategory a {
+        color: #E6007E;
+        text-decoration: none;
+        font-size: 20px;
+    }
+
+        .addCategory a:hover {
+            color: #99CCFF;
+        }
+
+.categories {
+    margin-top: 20px;
+}
+
+.selectBox {
+    display: flex;
+    padding: 10px;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#SelectCategory {
+    font-size: 20px;
+}
+
+.selectBox p {
+    height: 100%;
+    margin: 0;
+    margin-left: 40px;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+}
+
+    .selectBox p a {
+        color: #E6007E;
+    }
+
+        .selectBox p a:hover {
+            color: #99CCFF;
+            text-decoration: none;
+        }
+
+.btn-edit-product {
+    padding: 9px 37px;
+}
+
+.buttons {
+    line-height: 4 !important;
+}
+
+    .buttons a:last-of-type {
+        padding: 9px 40px;
+        margin-top: 20px;
+    }
+
+.pagination > .active > a {
+    background-color: #C9C9C9 !important;
+    border-color: #C9C9C9 !important;
+}
+
+.pagination > li > a {
+    color: #949494;
+}
+
+.user > li {
+    list-style-type: none;
+}
+
+.user > li > a {
+    color: #99CCFF;
+}
+
+.user > li > a:hover {
+    color: #E6007E;
+    text-decoration: none;
+}
+.backToList {
+    color: #E6007E;
+    font-size: 20px;
+    margin-left: 100px;
+}
+    .backToList:hover {
+        text-decoration: none;
+        color: #99CCFF;
+    }
+
+.logoMobile {
+    display: none;
+}
+
+.menuMobile {
+    display: none !important;
 }

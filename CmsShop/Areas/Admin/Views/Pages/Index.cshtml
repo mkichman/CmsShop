@@ -4,9 +4,10 @@
     ViewBag.Title = "Strony";
 }
 
-<h2>Strony</h2>
+<h6>Strony</h6>
+<hr class="headerUnderline" />
 
-<p>
+<p class="addPage">
     @Html.ActionLink("Dodaj nową stronę", "AddPage")
 </p>
 
@@ -42,12 +43,12 @@ else
                 <td>
                     @Html.DisplayFor(modelItem => item.HasSidebar)
                 </td>
-                <td>
-                    @Html.ActionLink("Edycja", "EditPage", new { id = item.Id }) |
-                    @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
+                <td class="pagesButtons">
+                    @Html.ActionLink("Edycja", "EditPage", new { id = item.Id }, new { @class = "btn-edit" })
+                    @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }, new { @class = "btn-edit" })
                     @if (item.Slug != "home")
                     {
-                        @Html.ActionLink("Usuń", "Delete", new { id = item.Id }, new { @class = "delete" })
+                        @Html.ActionLink("Usuń", "Delete", new { id = item.Id }, new { @class = "delete btn-edit" })
                     }
 
                 </td>

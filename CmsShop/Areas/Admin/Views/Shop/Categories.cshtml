@@ -4,11 +4,12 @@
     ViewBag.Title = "Sklep kategorie";
 }
 
-<h2>Sklep kategorie</h2>
+<h6>Sklep kategorie</h6>
+<hr class="headerUnderline" />
 
 <div class="new-cat">
     <input type="text" id="newCatName" />
-    <p>
+    <p class="addCategory">
         <a href="#" id="newCat">Dodaj nową kategorię</a>
         <span class="ajax-text">
             <img src="~/Content/img/ajax-loader.gif" />
@@ -41,7 +42,7 @@ else
                 </td>
 
                 <td>
-                    @Html.ActionLink("Usuń", "DeleteCategory", new { id = item.Id }, new { @class = "delete " })
+                    @Html.ActionLink("Usuń", "DeleteCategory", new { id = item.Id }, new { @class = "delete btn-edit" })
                 </td>
             </tr>
         }

@@ -1,9 +1,75 @@
 ﻿@model IEnumerable<CmsShop.Models.ViewModels.Shop.CategoryVM>
 
-    @foreach (var item in Model)
-    {       
-        <li>
-            <a href="/shop/category/@item.Slug.ToLower()">@item.Name</a>
+@foreach (var item in Model)
+{
+    <li>
+        <a href="/shop/category/@item.Slug.ToLower()">@item.Name</a>
+    </li>
+}
+
+@if (ViewBag.Title == "Profil użytkownika")
+{
+    <li class="menuMobile">
+        <a href="/account/orders"> Moje zamówienia</a>
+    </li>
+}
+@if (ViewBag.Title == "Zamówienia")
+{
+    <li class="menuMobile">
+        <a href="/account/user-profile">Mój profil</a>
+    </li>
+}
+
+@if (Request.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <li class="menuMobile">
+        @Html.ActionLink("Dashboard", "Index", "Dashboard", new { area = "Admin" }, null)
+    </li>
+}
+else
+{
+    if (ViewBag.Title != "Koszyk szczegóły")
+    {
+        <li class="menuMobile">
+            <a href="/cart"> Koszyk</a>
         </li>
     }
+}
+@if (Request.IsAuthenticated)
+{
+    <li class="menuMobile">
+        <a href="/account/logout" class="menuMobile">Wyloguj</a>
+    </li>
+}
+else
+{
+    if (ViewBag.Title == "Zaloguj")
+    {
+        <li class="menuMobile">
+            <a href="/account/login" class="menuMobile">Zaloguj</a>
+        </li>
+    }
+    else
+    {
+        <li class="menuMobile">
+            <a href="/account/login" class="menuMobile">Zaloguj</a>
+        </li>
+    }
+}
+@if (Request.IsAuthenticated && User.IsInRole("User"))
+{
+    if (ViewBag.Title == "Profil użytkownika")
+    {
+        <li class="menuMobile"> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
+    }
+    else
+    {
+        <li class="menuMobile"> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
+    }
+
+}
+
+
+
+
 

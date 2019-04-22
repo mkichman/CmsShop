@@ -32,21 +32,21 @@ else
                     Nazwa
                 </th>
 
-                <th></th>
+                <th class="mobile-none"></th>
                 <th>
                     Ilość
                 </th>
 
-                <th></th>
+                <th class="mobile-none"></th>
                 <th>
                     Cena
                 </th>
 
-                <th></th>
-                <th>
+                <th class="mobile-none"></th>
+                <th class="mobile-none">
                     Zdjęcie
                 </th>
-                <th>
+                <th >
                     Zmień ilość
                 </th>
                 <th>
@@ -61,16 +61,16 @@ else
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
-                <td></td>
+                <td class="mobile-none"></td>
                 <td class="qty@(item.ProductId)">
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
-                <td></td>
+                <td class="mobile-none"></td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price) zł.
                 </td>
-                <td></td>
-                <td>
+                <td class="mobile-none"></td>
+                <td class="mobile-none">
                     <img src="/Images/Uploads/Products/@item.ProductId/Thumbs/@item.Image" />
                 </td>
                 <td class="cAction">

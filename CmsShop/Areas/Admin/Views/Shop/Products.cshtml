@@ -8,27 +8,29 @@
 @using PagedList;
 
 
-<h2>Produkty</h2>
+<h6>Produkty</h6>
+<hr class="headerUnderline" />
 
-<select id="SelectCategory" name="SelectedCategory">
-    <option value="0">Wszystkie</option>
-    @foreach (var item in ViewBag.Categories)
-    {
-        if (ViewBag.SelectedCat == item.Value)
+<div class="selectBox">
+    <select id="SelectCategory" name="SelectedCategory">
+        <option value="0">Wszystkie</option>
+        @foreach (var item in ViewBag.Categories)
         {
-            <option selected="selected" value="@item.Value">@item.Text</option>
+            if (ViewBag.SelectedCat == item.Value)
+            {
+                <option selected="selected" value="@item.Value">@item.Text</option>
+            }
+            else
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
         }
-        else
-        {
-            <option value="@item.Value">@item.Text</option>
-        }
-    }
-</select>
-<br /> <br />
+    </select>
 
-<p>
-    @Html.ActionLink("Dodaj nowy produkt", "AddProduct")
-</p>
+    <p>
+        @Html.ActionLink("Dodaj nowy produkt", "AddProduct")
+    </p>
+</div>
 <table class="table">
     <tr>
         <th>
@@ -41,7 +43,7 @@
             Cena
         </th>
 
-        <th>
+        <th class="mobile-none">
             Zdjecie
         </th>
         <th></th>
@@ -59,14 +61,14 @@
             <td>
                 @product.Price
             </td>
-            <td>
+            <td class="mobile-none">
                 <a href="/admin/shop/EditProduct/@product.Id">
                     <img src="/Images/Uploads/Products/@product.Id/Thumbs/@product.ImageName" />
                 </a>
             </td>
-            <td>
-                @Html.ActionLink("Edytuj", "EditProduct", new { id = product.Id }) |
-                @Html.ActionLink("Usuń", "DeleteProduct", new { id = product.Id }, new { @class = "delete" })
+            <td class="buttons">
+                @Html.ActionLink("Edytuj", "EditProduct", new { id = product.Id }, new { @class = " btn-edit btn-edit-product" }) <br />
+                @Html.ActionLink("Usuń", "DeleteProduct", new { id = product.Id }, new { @class = "delete btn-edit  btn-edit-product" })
             </td>
         </tr>
     }

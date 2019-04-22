@@ -17,19 +17,15 @@
 
         @if (ViewBag.Title == "Profil użytkownika")
         {
-            <div class="col-xs-12" col-md-2>
-                <div class="col-xs-12" col-md-2>
+            
                     <a href="/account/orders"> Moje zamówienia</a>
-                </div>
-            </div>
+               
         }
         @if (ViewBag.Title == "Zamówienia")
         {
-            <div class="col-xs-12" col-md-2>
-                <div class="col-xs-12" col-md-2>
+            
                     <a href="/account/user-profile">Mój profil</a>
-                </div>
-            </div>
+               
         }
 
         @if (Request.IsAuthenticated && User.IsInRole("Admin"))
@@ -45,49 +41,52 @@
                 @Html.Action("CartPartial", "Cart")
             }
         }
-            <div class="user">
-                @if (Request.IsAuthenticated)
+        <div class="user">
+            @if (Request.IsAuthenticated)
+            {
+                <a href="/account/logout" class="nav-href">Wyloguj</a>
+            }
+            else
+            {
+                if (ViewBag.Title == "Zaloguj")
                 {
-                    <a href="/account/logout" class="nav-href">Wyloguj</a>
+                    <img src="/Images/user-circle-solid.svg" class="userimg" />
+                    <br />
+                    <a href="/account/login" class="nav-href">Zaloguj</a>
                 }
                 else
                 {
-                    if (ViewBag.Title == "Zaloguj")
-                    {
-                        <img src="/Images/user-circle-solid.svg" class="userimg" />
-                        <br />
-                        <a href="/account/login" class="nav-href">Zaloguj</a>
-                    }
-                    else
-                    {
-                        <img src="/Images/user-circle-solid.svg" class="userimg" />
-                        <br />
-                        <a href="/account/login" class="nav-href">Zaloguj</a>
-                    }
+                    <img src="/Images/user-circle-solid.svg" class="userimg" />
+                    <br />
+                    <a href="/account/login" class="nav-href">Zaloguj</a>
                 }
-                @if (Request.IsAuthenticated && User.IsInRole("User"))
+            }
+            @if (Request.IsAuthenticated && User.IsInRole("User"))
+            {
+                if (ViewBag.Title == "Profil użytkownika")
                 {
-                    if (ViewBag.Title == "Profil użytkownika")
-                    {
-                        <li class="active"> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
-                    }
-                    else
-                    {
-                        <li> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
-                    }
-
+                    <li class="active"> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
                 }
-            </div>
+                else
+                {
+                    <li> @Html.Action("UserNavPartial", "Account", new { area = "" })</li>
+                }
+
+            }
+        </div>
     </div>
     <div class="navbar navbar-inverse navbar-fixed-topcancel">
         <div class="container">
             <div class="navbar-header">
+                <div class="logoMobile">
+                    <a href="/" class="navbar-brand"><img src="~/Images/logo.png" /><h1>WhaleSpot</h1></a>
 
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+                    <button type="button" class="navbar-toggle navbarMobile" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
             </div>
             <div class="navbar-collapse collapse">
                 <div class="nav navbar-nav menu-nav">
@@ -119,14 +118,14 @@
             }
 
         </div>
-        
+
         <footer>
             <div class="user">
                 <ul class=" nav navbar-nav footer-nav">
                     @Html.Action("PagesMenuPartial", "Pages")
-                   
+
                 </ul>
-               
+
             </div>
             <p class="copyright">&copy; WhaleSpot @DateTime.Now.Year</p>
         </footer>
