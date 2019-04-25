@@ -6,7 +6,8 @@
         display: none;
     }
     .menuMobile {
-        display: flex;
+        display: flex !important;
+        justify-content: center;
     }
     .nav.navbar-nav.menu-nav {
         display: flex;
@@ -211,10 +212,98 @@
         width: 75%;
         padding: 0;
     }
+    .welcomeInfo {
+        width: 90%;
+        margin: 0 auto;
+        float: initial;
+    }
+    #mapContainer {
+        width: 470px;
+        height: 470px;
+        float: initial;
+        padding: 30px;
+        margin: 0 auto;
+    }
+    .grayBox {
+        width:100%;
+    }
+    .browser-none {
+        display: block;
+    }
+    .table-responsive > .table > tbody > tr > td {
+        white-space: pre-wrap;
+    }
+    .table-responsive > .table > tbody > tr > td.cAction {
+        white-space: nowrap;
+    }
+    .pay.btn-login {
+        margin-left: 50px;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .whiteBox.shipping {
+        text-align: center;
+    }
+    .form-group.button {
+        text-align: center;
+    }
+    .form-horizontal.userProfile {
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+}
+@media screen and (max-width: 768px) {
+    .menu-nav > li > a {
+        font-size: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
 
+    .container {
+        padding: 0;
+    }
 
+    .navbar-collapse {
+        padding: 0;
+    }
 
+    .menu-nav {
+        justify-content: initial;
+    }
 
-
+    .menu-nav > li:nth-of-type(3) {
+        width: 24%;
+    }
+    .welcomeInfo {
+        width: 88%;
+    }
+    .productDetailsDescription-gray {
+        width: 96%;
+    }
+    .cartImg {
+        width: 125px;
+    }
+    .cAction > a {
+        font-size: 13px;
+    }
+    .logo h1 {
+        display: none;
+    }
+    .btn-login {
+        width: 30%;
+    }
+    .userProfile {
+        padding-left: 55px;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .dashboard {
+        width: 100%;
+    }
+    .btn-login {
+        width: 20%;
+    }
 
 }

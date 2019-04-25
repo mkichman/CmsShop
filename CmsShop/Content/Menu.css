@@ -1,7 +1,9 @@
 ﻿* {
     font-family: 'Comfortaa', sans-serif;
 }
-
+.browser-none {
+    display: none
+}
 .user {
     height: 50px;
 }
@@ -585,11 +587,89 @@ footer {
         text-decoration: none;
         color: #99CCFF;
     }
-
+.orders {
+    color: #99CCFF;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    margin-right: 43px;
+    font-weight: bold;
+}
+.orders:hover {
+    text-decoration: none;
+    color: #E6007E;
+    
+}
+#mapContainer {
+    width: 500px;
+    height: 500px;
+    float: right;
+    padding: 50px;
+    margin-right: 80px;
+}
+.welcomeInfo {
+    width: 45%;
+    float: left;
+    margin: 30px;
+    font-size: 20px;
+    line-height: 2;
+    text-align: justify;
+}
+.grayBox {
+    background-color: rgb(242, 242, 242, 28%);
+    width: 80%;
+    margin: 0 auto;
+    padding: 25px;
+}
+.whiteBox {
+    background-color: white;
+    padding: 25px;
+}
+.boxUnderline {
+    width: 30%;
+    border-top: 1px solid #797979;
+}
+.boxText {
+    width: 90%;
+    margin: 0 auto;
+    text-align: justify;
+    font-size: 15px;
+    color: #797979;
+}
+h5 {
+    font-size: 36px;
+    text-align: center;
+    color: #E6007E;
+}
+.dashboard-btn {
+    padding-top: 10px;
+}
+.dashboardBtn {
+    color: #99CCFF;
+    text-transform: uppercase;
+    margin-top: 20px;
+    padding-top: 53px;
+    font-weight: bold;
+}
+.dashboardBtn:hover {
+    color: #E6007E;
+    text-decoration: none;
+}
 .logoMobile {
     display: none;
 }
 
 .menuMobile {
     display: none !important;
+}
+.pay.btn-login {
+    margin-left: 80px;
+}
+.whiteBox.shipping {
+    text-align: center;
+}
+.info {
+    position: absolute;
+    top: 28%;
+    left: 85%;
 }

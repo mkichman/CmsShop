@@ -8,7 +8,7 @@
 }
 
 <h6 class="hiding">Koszyk szczegóły</h6>
-<hr class="headerUnderline" />
+<hr class="headerUnderline hiding" />
 
 @if (ViewBag.Message != null)
 {
@@ -17,9 +17,13 @@
 else
 {
     <div class="data-shipping" style="display: none">
-        <p> Czy chcesz zmodifykować dane do wysyłki?</p>
-        <a href="/account/user-profile" class="btn btn-primary"> Tak</a>
-        <a href="#" class="placeorder btn btn-primary"> Nie </a>
+        <div class="grayBox">
+            <div class="whiteBox shipping">
+                <p> Czy chcesz zmodifykować dane do wysyłki?</p>
+                <a href="/account/user-profile" class="btn btn-login"> Tak</a>
+                <a href="#" class="placeorder btn btn-login"> Nie </a>
+            </div>
+        </div>
     </div>
     <div class="paypal" style="display: none">
         <p> Zrealizuj płatność za pomocą: </p>
@@ -32,21 +36,20 @@ else
                     Nazwa
                 </th>
 
-                <th class="mobile-none"></th>
+                <th ></th>
                 <th>
                     Ilość
                 </th>
 
-                <th class="mobile-none"></th>
+                <th ></th>
                 <th>
                     Cena
                 </th>
-
-                <th class="mobile-none"></th>
+                <th></th>
                 <th class="mobile-none">
                     Zdjęcie
                 </th>
-                <th >
+                <th>
                     Zmień ilość
                 </th>
                 <th>
@@ -61,17 +64,17 @@ else
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
-                <td class="mobile-none"></td>
+                <td ></td>
                 <td class="qty@(item.ProductId)">
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
-                <td class="mobile-none"></td>
+                <td></td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price) zł.
                 </td>
-                <td class="mobile-none"></td>
+                <td></td>
                 <td class="mobile-none">
-                    <img src="/Images/Uploads/Products/@item.ProductId/Thumbs/@item.Image" />
+                    <img src="/Images/Uploads/Products/@item.ProductId/Thumbs/@item.Image" class="cartImg"/>
                 </td>
                 <td class="cAction">
                     <a href="#" class="incrproduct cartActions" data-id="@item.ProductId">+</a>
@@ -89,8 +92,7 @@ else
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>             
+                <td></td>            
                 <td></td>
                 <td class="grandtotal"><b>Razem: </b><span>@ViewBag.GrandTotal</span>zł.</td>
             </tr>
@@ -100,7 +102,7 @@ else
     <br />
     if (Request.IsAuthenticated)
     {
-        <a href="#" class="pay btn btn-primary pull-right">Zapłać</a>
+        <a href="#" class="pay btn btn-login">Zapłać</a>
     }
     else
     {

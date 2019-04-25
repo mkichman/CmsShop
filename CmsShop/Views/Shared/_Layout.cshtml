@@ -18,7 +18,7 @@
         @if (ViewBag.Title == "Profil użytkownika")
         {
             
-                    <a href="/account/orders"> Moje zamówienia</a>
+                    <a href="/account/orders" class="orders"> Moje zamówienia</a>
                
         }
         @if (ViewBag.Title == "Zamówienia")
@@ -30,8 +30,8 @@
 
         @if (Request.IsAuthenticated && User.IsInRole("Admin"))
         {
-            <ul class="navbar-collapse">
-                @Html.ActionLink("Dashboard", "Index", "Dashboard", new { area = "Admin" }, null)
+            <ul class="navbar-collapse dashboard-btn">
+                @Html.ActionLink("Dashboard", "Index", "Dashboard", new { area = "Admin" }, new { @class = "dashboardBtn" })
             </ul>
         }
         else

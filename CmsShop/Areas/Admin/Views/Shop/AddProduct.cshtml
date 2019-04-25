@@ -69,29 +69,31 @@
 }
 
 <div>
-    @Html.ActionLink("Powrót do listy stron", "Index", null, new { @class = "backToList" })
+    @Html.ActionLink("Powrót do listy produktów", "Index", null, new { @class = "backToList" })
 </div>
 
+
+
 @section scripts {
-         
+   
     <script>
-        $(function () {
-            /*
-            * Wysietlanie podgladu obrazka
-            */
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $("img#imgpreview").attr("src", e.target.result).width(200).height(200);
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-            $("#ImageUpload").change(function () {
-                readURL(this);
-            })
-        });
+    $(function () {
+    /*
+    * Wysietlanie podgladu obrazka
+    */
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+    $("img#imgpreview").attr("src", e.target.result).width(200).height(200);
+    }
+    reader.readAsDataURL(input.files[0]);
+    }
+    }
+    $("#ImageUpload").change(function () {
+    readURL(this);
+    })
+    });
     </script>
 
 }

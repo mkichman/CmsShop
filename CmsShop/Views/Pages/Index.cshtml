@@ -7,3 +7,37 @@
 
 @Html.Raw(Model.Body)
 
+<p class="welcomeInfo"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel tempus metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque. Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus eget nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi, in interdum massa nibh nec erat.</p>
+
+<div id="mapContainer"></div>
+
+<div class="snapwidget-rpf" data-widget-id="686480"></div>
+
+@section scripts {
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+    <script>
+        var platform = new H.service.Platform({
+            'app_id': 'bIS7rNCthDRsNZlsjkkd',
+            'app_code': '7hFhHhmdtbcPV-5Hkv9laQ'
+        });
+
+        // Obtain the default map types from the platform object:
+        var defaultLayers = platform.createDefaultLayers();
+
+        // Instantiate (and display) a map object:
+        var map = new H.Map(
+            document.getElementById('mapContainer'),
+            defaultLayers.normal.map,
+            {
+                zoom: 15,
+                center: { lat: 50.03755489, lng: 22.00508789 }
+            });
+
+
+
+
+       $(function(s,n,ap){if(!s.getElementById(ap)){var a=s.createElement("script");a.id=ap,a.src="https://snapwidget.com/js/snapwidget-rpf.js",s.getElementsByTagName("head")[0].appendChild(a)}}(document,0,"snaprpf"));
+
+    </script> 
+    }
